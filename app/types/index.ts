@@ -12,8 +12,8 @@ export interface NewsItem {
 export interface ContactFormData {
   name: string;
   phone: string;
-  email: string;
-  comment: string;
+  email: string | undefined;
+  comment: string | undefined;
   privacyAgreed: boolean;
 }
 
