@@ -33,8 +33,7 @@ export async function fetchNews(): Promise<NewsItem[]> {
         title: post.title,
         body: post.body.length > 100 ? post.body.substring(0, 100) + '...' : post.body,
         image: imageUrl,
-        date: formattedDate + 'г',
-        tag: 'Новость',
+        date: formattedDate,
       };
     });
 
@@ -44,4 +43,3 @@ export async function fetchNews(): Promise<NewsItem[]> {
     return [];
   }
 }
-

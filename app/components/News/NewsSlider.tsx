@@ -1,7 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
+import type { Swiper as SwiperType } from 'swiper';
 import { NewsItem } from '@/app/types';
 import styles from './News.module.scss';
 import 'swiper/css';
@@ -12,11 +14,24 @@ interface NewsSliderProps {
 }
 
 export default function NewsSlider({ news }: NewsSliderProps) {
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
+
+  const handleSlideChange = (swiper: SwiperType) => {
+    setIsBeginning(swiper.isBeginning);
+    setIsEnd(swiper.isEnd);
+  };
+
+  const handleSwiperInit = (swiper: SwiperType) => {
+    setIsBeginning(swiper.isBeginning);
+    setIsEnd(swiper.isEnd);
+  };
+
   return (
     <div className={styles.sliderWrapper}>
       <Swiper
         modules={[Navigation]}
-        spaceBetween={30}
+        spaceBetween={7}
         slidesPerView={1}
         navigation={{
           nextEl: `.${styles.nextButton}`,
@@ -34,6 +49,10 @@ export default function NewsSlider({ news }: NewsSliderProps) {
           },
         }}
         className={styles.swiper}
+        onSlideChange={handleSlideChange}
+        onInit={handleSwiperInit}
+        onReachBeginning={() => setIsBeginning(true)}
+        onReachEnd={() => setIsEnd(true)}
       >
         {news.map((item) => (
           <SwiperSlide key={item.id} className={styles.slide}>
@@ -56,10 +75,13 @@ export default function NewsSlider({ news }: NewsSliderProps) {
           </SwiperSlide>
         ))}
       </Swiper>
-      <button className={styles.prevButton} aria-label="Предыдущий слайд">
+      <button 
+        className={`${styles.prevButton} ${isBeginning ? styles.buttonHidden : ''}`} 
+        aria-label="Предыдущий слайд"
+      >
         <svg
-          width="24"
-          height="24"
+          width="28"
+          height="28"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -73,10 +95,13 @@ export default function NewsSlider({ news }: NewsSliderProps) {
           />
         </svg>
       </button>
-      <button className={styles.nextButton} aria-label="Следующий слайд">
+      <button 
+        className={`${styles.nextButton} ${isEnd ? styles.buttonHidden : ''}`} 
+        aria-label="Следующий слайд"
+      >
         <svg
-          width="24"
-          height="24"
+          width="28"
+          height="28"
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
