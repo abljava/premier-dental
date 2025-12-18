@@ -14,10 +14,11 @@ export async function fetchNews(): Promise<NewsItem[]> {
     const posts: JsonPlaceholderPost[] = await response.json();
 
     // Преобразуем данные в формат новостей
-    const news: NewsItem[] = posts.slice(0, 10).map((post) => {
-      // Генерируем случайные изображения
-      const imageId = Math.floor(Math.random() * 1000) + 1;
-      const imageUrl = `https://picsum.photos/400/300?random=${imageId}`;
+    const news: NewsItem[] = posts.slice(0, 10).map((post, index) => {
+      // Используем локальные изображения из папки public/images/news
+      // Циклически перебираем доступные изображения (news-1.jpg, news-2.jpg, news-3.jpg, news-4.jpg)
+      const imageNumber = (index % 4) + 1;
+      const imageUrl = `/images/news/news-${imageNumber}.jpg`;
 
       // Генерируем случайную дату в прошлом году
       const randomDate = new Date();
