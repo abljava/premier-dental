@@ -28,12 +28,17 @@ export async function fetchNews(): Promise<NewsItem[]> {
         year: 'numeric',
       });
 
+      // Генерируем случайный тег
+      const tags = ['Новости', 'Статьи', 'Акции', 'Советы', 'События'];
+      const randomTag = tags[Math.floor(Math.random() * tags.length)];
+
       return {
         id: post.id,
         title: post.title,
         body: post.body.length > 100 ? post.body.substring(0, 100) + '...' : post.body,
         image: imageUrl,
         date: formattedDate,
+        tag: randomTag,
       };
     });
 
